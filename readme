@@ -3,12 +3,12 @@ Assignment 4 readme File
 ------------------------------------------------------------------------
 Student 1: What is your name?
 
-
+Aidan Walsh
 
 ------------------------------------------------------------------------
 Student 2: What is your name?
 
-
+Konstantin Howard
 
 ------------------------------------------------------------------------
 Student 1: What authorized sources of information did you use to
@@ -40,7 +40,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 Student 2: What unauthorized sources of information did you use to
@@ -54,7 +54,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 Student 1: What is your assessment of the assignment? Was it helpful?
@@ -117,11 +117,11 @@ the error manifests itself or is "noticed" by the client.
 
       Executable         Function with the underlying error
 ===============================================================
-         ./bdtBad1        
+         ./bdtBad1        int BDT_insertPath(char* path)
 ---------------------------------------------------------------
-         ./bdtBad2        
+         ./bdtBad2        static Node_T BDT_newNode(Node_T parent, char* dir)
 ---------------------------------------------------------------
-         ./bdtBad3        
+         ./bdtBad3        static int BDT_unlinkParentToChild(Node_T parent, Node_T child)
 ===============================================================
 
 ------------------------------------------------------------------------
@@ -133,19 +133,107 @@ what is the fundamental difference with trying to debug this
 executable in gdb versus the first three (Hint: your answer should
 have nothing to do with the program's code.):
 
-
+Gdb is very helpful for fixing mistakes with algorithms or how
+the code is implemented. We see, however, that the issue has to
+do with memory which gdb won't be too helpful for (step, print,
+next, run, etc. won't help). Thus, valgrind or meminfo will be
+more helpful. We can see that we access the wrong information
+or have memory issues with the output or strange characters
+when we print to stderr. 
 
 For bdtBad5, you do not have to find the bug and simply identifying
 the bug is insufficient to earn the extra credit. Instead, discuss how
 the program could crash within the DynArray module, which we promise is
 correct, while executing a callback function that is, itself, correct:
 
+The program could crash within the DynArray module while executing a
+callback function that is correct if there is anything NULL or invalid
+within the DynArray. This would cause there to be information stored
+that cannot be retreived or accessed, and so may cause the program to
+crash or seg fault. 
 
 
 ------------------------------------------------------------------------
 What are your critiques of the given DT implementations, as
 specified in Step 2.5?
 
+Node.h:
+	- comments don't mention that arguments must exist (implicit
+	assert)
+	- comments don't explain type returned such as Node_getPath:
+	is path a string?
+	- Node_getPath should explain the format of path - what is path?
+	- The purpose of Node.h is to help with dt.c but some of these
+	functions are never used: Node_addChild, Node_toString.
+	- Node_addChild is redundant because we already have Node_create
+	and Node_linkChild.
+	- Node_toString redundant because it just returns the path,
+	which Node_toPath already does, and it is never used in dt.c.
+	- inconsistent argument naming. n, node1, node2, parent, child,
+	are all used. Either use n1, n2, or node1, node2.
+	- While compare helps, we already have Node_getPath so we can
+	easily create a compare method if we need to in a c file so
+	there is no use in having it in the interface. Just adds a
+	method that won't be too helpful. 
+nodeGood.c:
+	- Node_unlinkChild and Node_linkChild use variable i which is
+	uninformative. Should be renamed to be index or something better
+	- inconsistent node names used (n, curr, parent ...). Should
+	just stick to curr and parent for consistency and they are
+	informative
+	- Node_buildPath not needed. It is only ever called once and
+	so only breaks up code. The less functions the better and so
+	it only makes tracing the code more difficult.
+	- Comments should be added within the functions to explain
+	how they work
+	- Node_hasChild is called only once so we can just place it into
+	Node_linkChild to reduce the number of functions.
+	- Binary search is called twice in a call to
+	  linkChild when it can be called once.
+	This will improve efficiency and reduce code.
+	- if statements have "== TRUE" which is not needed
+	- Node_destroy uses a node variable called c which is
+	uninformative. Recommend renaming it "current".
+
+dt.h:
+	- DT_init should be placed first since it is a function that
+	should be called first. This helps with readability and
+	encourages proper function.
+	- comments of functions should mention validation or imply
+	validity of arguments (all path for this case)
+dt.c:
+	- No comments within functions to explain how they work
+	- Inconsistent placement of static functions: DT_removePathFrom
+	is not placed just before it is called. Either place all static
+	functions just before they are called or all at the front in
+	order of calling.
+	- This c file is very long, look to trim it down (code bloating)
+	- DT_rmPathAt not needed since we can just call this once in
+	DT_rmPath
+	- DT_rmPathFrom is only called a few times and is so short, it
+	does not make things much easier - only adds more methods and
+	to the clutter. So, it is not needed (this is a rather more
+	subjective call). 
+	- All we need is, for DT_destroy, to call Node_destroy with the
+	Root as the argument. Having the separate removePathFrom is
+	almost pointless since it is so short. (One could argue that
+	having removePathFrom reduces coupling but it is used so few
+	times that this is negligible). 
+	- DT_insertRestOfPath only called once in DT_insertPath
+	so it just adds an extra function to everything - so we can
+	just put this into DT_insertPath (we keep it as two in ft.c
+	because we insert both directories and files, so it does end up
+	reducing code). 
+	- DT_preOrderTraversal naming is uninformative and inconsistent.
+	We use c for a loop variable when we have used i in the past.
+	Node n should be renamed curr.
+	- DT_linkParentToChild is exactly the same as the method in
+	node.h and so is useless, especially since here, we return
+	success/failure, then test success/failure. This is also only
+	used twice in one method, so this method does not reduce
+	coupling.
+	- path should be validated for DT_strcatAccumulate and
+	DT_strlenAccumulate 
 
 
 ------------------------------------------------------------------------
