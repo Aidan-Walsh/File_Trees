@@ -66,9 +66,10 @@ static Node_T FT_traversePath(char* path) {
 
 }
 /*inserts a new path into the tree rooted at parent, or, if parent is 
-NULL, as the root of the data structure. This new path may be a file or
-directory. If a node representing a path already exists, return 
-ALREADY_IN_TREE. If there is an allocation error in creating any of the
+NULL, at the root of the data structure. This new path may belong to file or
+directory, specified by isDir. If a file, contents and length pass along the
+new file's contents and length. If a node representing a path already exists, 
+return ALREADY_IN_TREE. If there is an allocation error in creating any
 nodes or their fields, return MEMORY_ERROR. If there is an error 
 linking any of the nodes, returns PARENT_CHILD_ERROR. Return 
 CONFLICTING_PATH if path is not underneath existing root. Validate path
@@ -264,6 +265,8 @@ int FT_rmDir(char *path) {
    Node_T curr;
    Node_T parent; 
    int result;
+
+   assert(path != NULL);
 
    if (!isInitialized)
       return INITIALIZATION_ERROR;
@@ -550,6 +553,7 @@ static size_t FT_preOrderTraversal(Node_T node1, DynArray_T dArray,
    str, and also always adds one more in addition to str's length. */
 static void FT_strlenAccumulate(char* str, size_t* pAcc) {
    assert(pAcc != NULL);
+   assert(str != NULL);
 
    /* add to pAcc if the string str is not NULL. */
    if (str != NULL)
@@ -561,6 +565,7 @@ static void FT_strlenAccumulate(char* str, size_t* pAcc) {
    the concatenated string. */
 static void FT_strcatAccumulate(char* str, char* acc) {
    assert(acc != NULL);
+   assert(str != NULL);
 
    /* if str is not NULL, then concatenate in the reverse order, and
       append the newline */
