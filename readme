@@ -17,8 +17,11 @@ information given in the "Policies" web page (also available on armlab
 in the file ~cos217/AuthorizedSourcesList ) to this section of the
 readme file, and edit it as appropriate.
 
+The course's lectures.
 
+The course's precepts.
 
+The course's website.
 ------------------------------------------------------------------------
 Student 2: What authorized sources of information did you use to
 complete the assignment? COPY THE LIST of authorized sources of
@@ -26,8 +29,11 @@ information given in the "Policies" web page (also available on armlab
 in the file ~cos217/AuthorizedSourcesList ) to this section of the
 readme file, and edit it as appropriate.
 
+The course's lectures.
 
+The course's precepts.
 
+The course's website.
 ------------------------------------------------------------------------
 Student 1: What unauthorized sources of information did you use to
 complete the assignment? List any unauthorized sources of information
@@ -60,20 +66,22 @@ None
 Student 1: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+The assignment was very helpful - went quite smoothly because my partner
+and I spent a good amount of time planning and looking at the code before
+writing any code
 
 ------------------------------------------------------------------------
 Student 2: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+Somehow the least painful of the assignments I've done so far.
 
 ------------------------------------------------------------------------
 (optional) What information can you provide about your submission that
 will help your grader to grade it in the most favorable light? In
 particular, what bugs are in your submission?
 
-
+Sorry you have to read all this
 
 ------------------------------------------------------------------------
 What warnings does splint generate for Part 2's checker, and what are
@@ -97,16 +105,56 @@ your disagreements with them? Copy the splint warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+node.c: (in function Node_unlinkChild)
+      node.c:273:47: Variable index used before definition
 
-
+We created the size_t variable index because DynArray_bsearch requires
+the pointer to such variable in which to store the index of the found 
+or unfound entry (child). The variable is meaningless before we call 
+that function and so we are not giving it any value. This is also done
+in the provided nodeGood.c from Part 2.
 ------------------------------------------------------------------------
 What warnings does critTer generate on your Part 3 code, and what are
 your disagreements with them? Copy the critTer warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+Checking node.c
 
+	node.c: line 40: medium priority:
+	Do you want to validate 'contents' through an assert?
+   
+	node.c: line 280: medium priority:
+	Do you want to validate 'newContents' through an assert?
 
+We cannot validate the contents of a file against anything as
+a NULL contents is perfectly acceptable.
+
+Checking ft.c
+
+   ft.c: line 611: low priority: 
+   A file should contain no more than 15 functions;
+   this file contains 18 functions
+
+   ft.c: line 78: medium priority:
+   Do you want to validate 'contents' through an assert?
+
+   ft.c: line 308: medium priority:
+   Do you want to validate 'contents' through an assert?
+
+   ft.c: line 426: medium priority:
+   Do you want to validate 'newContents' through an assert?
+
+   ft.c: line 610: low priority: 
+   A source code file should contain fewer than 500 lines;
+   this file contains 611 lines
+
+   ft.c: line 49: low priority: 
+   This area is deeply nested at level 4, consider refactoring
+
+Once again, we cannot validate file contents against anything. We believe 
+that our functions and lines of code that go over critTer's arbitrary limit
+are essential to our program, as is the deeply nested code at line 49.
 ------------------------------------------------------------------------
 For each of the first three faulty BDT implementations required by Step
 1.5, identify the function where there is a bug. You do not have to
