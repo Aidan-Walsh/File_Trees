@@ -1,4 +1,3 @@
-
 /*--------------------------------------------------------------------*/
 /* checkerDT.c                                                        */
 /* Author: Aidan Walsh, Konstantin Howard                             */
