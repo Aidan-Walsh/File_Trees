@@ -89,15 +89,21 @@ your disagreements with them? Copy the splint warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+checkerDT.c: (in function CheckerDT_Node_isValid)
+checkerDT.c:63:55: Variable previous used before definition
+  An rvalue is used that may not be initialized to a value on some execution
+  path. (Use -usedef to inhibit warning)
 
-
+We are ignoring this warning because the if conditions are such that
+previous will never actually be used before being defined by ensuring
+that the for loop has iterated at least once.
 ------------------------------------------------------------------------
 What warnings does critTer generate on checkerDT.c, and what are your
 disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-
+None.
 
 ------------------------------------------------------------------------
 What warnings does splint generate on your Part 3 code, and what are
@@ -186,7 +192,7 @@ the code is implemented. We see, however, that the issue has to
 do with memory which gdb won't be too helpful for (step, print,
 next, run, etc. won't help). Thus, valgrind or meminfo will be
 more helpful. We can see that we access the wrong information
-or have memory issues with the output or strange characters
+or have memory issues with the output of strange characters
 when we print to stderr. 
 
 For bdtBad5, you do not have to find the bug and simply identifying
@@ -196,9 +202,9 @@ correct, while executing a callback function that is, itself, correct:
 
 The program could crash within the DynArray module while executing a
 callback function that is correct if there is anything NULL or invalid
-within the DynArray. This would cause there to be information stored
-that cannot be retreived or accessed, and so may cause the program to
-crash or seg fault. 
+within the DynArray. Specifically, one of the paths was NULL and failed
+an assert. This would cause there to be information stored that cannot 
+be retreived or accessed, and so may cause the program to crash or seg fault.
 
 
 ------------------------------------------------------------------------
