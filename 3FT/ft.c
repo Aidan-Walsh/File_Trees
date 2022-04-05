@@ -262,10 +262,11 @@ boolean FT_containsDir(char* path) {
 
 /* see ft.h for specification */
 int FT_rmDir(char *path) {
-   assert(path != NULL);
    Node_T curr;
    Node_T parent; 
    int result;
+
+   assert(path != NULL);
 
    if (!isInitialized)
       return INITIALIZATION_ERROR;
