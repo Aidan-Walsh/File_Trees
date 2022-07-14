@@ -1,3 +1,4 @@
-# Assignment 4 - Directory and File Trees
+# Directory and File Trees
 
-This repository contains the provided files for Assignment 4.
+There is a lot to take in here. The folder 3FT contains code (with the help of @KonstantinHoward) for a file tree AO implementation. It contains several interfaces and implementations of nodes and resizing arrays that make up the FT. Simply put, our file tree is almost the same as a file tree in an OS: it contains files and directories, the files contain contents and have a size and cannot have any children, while directories can only have children, nothing in the same directory or with the same path can have an identical name, and there may be a large amount of children to a directory. If all the interfaces, and implementations are downloaded, then one may be able to use the DT AO such that they include it properly and read the comments to properly use the implementation. 
+Our 1BDT and 2DT folders really contain code and implementations of other versions of file trees, such as directory trees and binary directory trees, that are buggy and require debugging. The debugging was essential to the designing of the file tree contained in 3FT. The implementation and interface called "dynarray" have been cited with their authors.   
